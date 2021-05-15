@@ -3,6 +3,8 @@ from django.shortcuts import render,redirect
 ## Create your views here.
 #from django.shortcuts import render
 from django.views import View
+from django.db.models import Q
+
 
 from .models import Design
 from .forms import DesignForm
@@ -11,18 +13,21 @@ import magic
 
 ALLOWED_MIME    = [ "image/vnd.adobe.photoshop","application/postscript" ]
 
+
+
 class illustView(View):
 
     def get(self, request, *args, **kwargs):
 
+        """
         #スペース区切りしない普通の検索(スペースも文字列として扱われる)
         if "search" in request.GET:
             designs = Design.objects.filter(title__contains=request.GET["search"])
         else:
             #Designクラスを使用し、DBへアクセス、データ全件閲覧
             designs = Design.objects.all()
-
         """
+
         #スペース区切りにした検索(検索キーワードをスペースで区切り、検索を実行)
         if "search" in request.GET:
 
@@ -41,10 +46,9 @@ class illustView(View):
                 query &= Q(title__contains=word)
 
             #(4)作ったクエリを実行
-            designs        = Design.objects.filter(query)
+            designs = Design.objects.filter(query)
         else:
-            designs    = Design.objects.all()
-        """
+            designs = Design.objects.all()
 
         button1     = "Prev"
         data        = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
@@ -100,7 +104,6 @@ class illustView(View):
 
         #upload_to、settings内にあるMEDIA_ROOTを読み取り、そこに画像ファイルを保存。
         from django.conf import settings
-        #path            = Design.file.field.upload_to
         path            = Design.thumbnail.field.upload_to
         thumbnail_path  = path + str(design.id) + ".png"
         full_path       = settings.MEDIA_ROOT + "/" + thumbnail_path 
@@ -126,3 +129,16 @@ class illustView(View):
         return redirect("illust:index")
 
 index   = illustView.as_view()
+
+
+
+
+"""
+class UploadView(View):
+
+    def get(self, request, *args, **kwargs):
+
+        return render(request, "illust/upload.html")
+
+upload  = UploadView.as_view()
+"""
