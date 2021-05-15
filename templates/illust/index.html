@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html>
+<head>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script src="{% static 'illust/js/script.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'illust/css/style.css' %}">
+
+</head>
+
+<body>
+    <header>
+        <div class="header_frame"><a class="header_content" href="">カテゴリー1</a></div>
+        <div class="header_frame"><a class="header_content" href="">カテゴリー2</a></div>
+        <div class="header_frame"><a class="header_content" href="">カテゴリー3</a></div>
+        <div class="header_frame">
+            <form action="" method="GET">
+                <input type="text" name="search" placeholder="ここにキーワードを入れる" value="{{ request.GET.search }}">
+                <input type="submit" value="検索">
+            </form>
+        </div>
+    </header>
+
+    {% if request.GET.search %}
+    <div style="color:white;">{{ request.GET.search }}で検索しました</div>
+    {% endif %}
+
+    <div class="post_area">
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="text">
+                <input type="text" name="title" placeholder="タイトル">
+            </div>
+            <textarea class="ui10-textarea_circle" cols="60" rows="10" name="description" placeholder="説明"></textarea>
+            <div>
+                <input type="file" name="file">
+            </div>
+            <div><input type="submit" value="投稿"></div>
+        </form>
+
+    </div>
+
+    {# 受け取ったdesingsをforループで1つずつ取り出し、表示させる。 #}
+    {% for design in designs %}
+    <div>
+        <div>{{ design.id }}</div>
+        <div>{{ design.title }}</div>
+        <div>{{ design.date }}</div>
+        <div>{{ design.description }}</div>
+        <div><a href="/media/{{ design.file }}">ダウンロード</a></div>
+        <div><img src="/media/{{ design.thumbnail }}" alt="サムネイル" style="max-width:100%;"></div>
+    </div>
+    {% endfor %}
+
+
+
+
+    <div class="category_header">{{category1}}</div>
+
+    <div class="preview_control_area">
+
+        <div class="preview_date_area">
+            <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+            <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+            <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+            <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+            <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+            <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+            <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+            <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+        </div>
+        <div class="control_button previous_button">{{button1}}</div>
+        <div class="control_button next_button">Next</div>
+    </div>
+
+    <div class="category_header">{{category2}}</div>
+
+        <div class="preview_control_area">
+
+            <div class="preview_date_area">
+                <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+                <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+                <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+                <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+                <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+                <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+                <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+                <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+            </div>
+            <div class="control_button previous_button">{{button1}}</div>
+            <div class="control_button next_button">Next</div>
+        </div>
+
+
+    <div class="category_header">{{category3}}</div>
+
+        <div class="preview_control_area">
+
+            <div class="preview_date_area">
+                <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+                <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+                <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+                <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+                <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+                <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+                <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+                <div class="data_preview_frame"><div class="data_preview_content">{{data}}</div></div>
+            </div>
+            <div class="control_button previous_button">{{button1}}</div>
+            <div class="control_button next_button">Next</div>
+        </div>
+</body>
+</html>
